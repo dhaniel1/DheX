@@ -28,4 +28,4 @@
                     :on-click #(dispatch [:navigate :settings])} "Settings"]
           [:a.link {:class (when (= active-page :profile) "active")
                     :on-click #(dispatch [:navigate :profile :user-id (-> user :username)])} "Profile"]
-          [:button.app-button.small.danger.items-end {:on-click #(dispatch [:logout])} "Logout"]])]]]))
+          [:button.app-button.small.transparent.danger-border {:on-click #(dispatch [:logout])} "Logout"]])]]]))
