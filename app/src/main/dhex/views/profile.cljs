@@ -75,30 +75,6 @@
    (for [tag tags]
      ^{:key tag} [tag-dark tag])])
 
-(defn pagination
-  []
-  (let [articles-count (subscribe :articles-count)
-        tag (subscribe :tag)
-        author (subscribe :author)
-        offset (subscribe :offset)
-        pages (atom (range 1 (+ 1 articles-count) 10))]
-
-    [:section.mx-auto {:class (str "w-9/12")}
-     [:div.app_profile-pagination.flex.flex-wrap.gap-1
-      (for [page-inst (range 1 (inc (count @pages)))]
-        (let [offset-param (dec (nth @pages (dec page-inst)))]
-
-          ^{:key page-inst} [:div.app_profile-pagination-page
-                             {:class (when (= offset offset-param) "active")
-                              :on-click #(if tag
-                                           (dispatch [:get-articles {:tag tag
-                                                                     :offset offset-param
-                                                                     :limit 10}])
-                                           (dispatch [:get-articles {:author author
-                                                                     :offset (or offset-param 0)
-                                                                     :limit 10}]))}
-                             [:p page-inst]]))]]))
-
 (defn- main
   []
   (let [user (subscribe :user)
@@ -130,7 +106,7 @@
           [all-feeds articles])]]
 
       (when-not (or loading-articles? (< articles-count 10))
-        [pagination])]]))
+        [u/pagination])]]))
 
 (defn profile-view []
   [:div.app_profile

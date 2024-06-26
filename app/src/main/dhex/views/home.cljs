@@ -69,26 +69,6 @@
    (for [tag tags]
      ^{:key tag} [tag-dark tag])])
 
-(defn pagination
-  []
-  (let [articles-count (subscribe :articles-count)
-        tag (subscribe :tag)
-        offset (subscribe :offset)
-        pages (atom (range 1 (+ 1 articles-count) 10))]
-
-    [:section.mx-auto {:class (str "w-11/12")}
-     [:div.app-home-pagination.flex.flex-wrap.gap-1
-      (for [page-inst (range 1 (inc (count @pages)))]
-        (let [offset-param (dec (nth @pages (dec page-inst)))]
-
-          ^{:key page-inst} [:div.app-home-pagination-page
-                             {:class (when (= offset offset-param) "active")
-                              :on-click #(if tag
-                                           (dispatch [:get-articles {:tag tag
-                                                                     :offset offset-param
-                                                                     :limit 10}])
-                                           (dispatch [:get-articles {:offset offset-param
-                                                                     :limit 10}]))} [:p page-inst]]))]]))
 
 (defn- main
   []
@@ -98,6 +78,7 @@
         loading-tags?  (subscribe :loading-tags?)
         all-tags (subscribe :tags)
         filter (subscribe :filter)
+        articles-count (subscribe :articles-count)
         feed-articles-error (subscribe :get-feed-articles-error)
         get-tags-error (subscribe :get-tags-error)]
 
@@ -130,8 +111,8 @@
              (u/display-error feed-articles-error)
              [tags-comp all-tags]))]]]
 
-      (when-not loading-articles?
-        [pagination])]]))
+      (when-not (or loading-articles? (< articles-count 10))
+        [u/pagination])]]))
 
 (defn home-view []
   [:div.app-home

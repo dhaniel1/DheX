@@ -136,27 +136,27 @@
        (assoc :articles (index-by :slug articles)
               :articles-count  (:articlesCount acc)))))
 
-;; (reg-event-fx
-;;  :get-article
-;;  (fn [{:keys [db]} [_ params]]
-;;    {:http-xhrio {:method          :get
-;;                  :uri             (endpoint "articles" (:slug params))
-;;                  :params          params
-;;                  :headers        (auth-header db) ;; This is used to authenticate the user
-;;                  :timeout         5000
-;;                  :response-format (json-response-format {:keywords? true})
-;;                  :on-success      [:get-article-success]
-;;                  :on-failure      [:api-request-error {:request :get-article
-;;                                                        :loading :article}]}
-;;     :db (assoc-in db [:loading :article] true)})
+(reg-event-fx
+ :get-article
+ (fn [{:keys [db]} [_ params]]
+   {:http-xhrio {:method          :get
+                 :uri             (endpoint "articles" (:slug params))
+                 :params          params
+                 :headers        (auth-header db) ;; This is used to authenticate the user
+                 :timeout         5000
+                 :response-format (json-response-format {:keywords? true})
+                 :on-success      [:get-article-success]
+                 :on-failure      [:api-request-error {:request :get-article
+                                                       :loading :article}]}
+    :db (assoc-in db [:loading :article] true)})
 
-;;  (reg-event-db
-;;   :get-article-success
-;;   (fn [db [_ {:keys [article] :as acc}]]
-;;     (println "Successfullly gets ARTICLE") ;; DELETE MEEEE
-;;     (-> db
-;;         (assoc-in [:loading :article] false)
-;;         (assoc :articles (index-by :slug [article]))))))
+ (reg-event-db
+  :get-article-success
+  (fn [db [_ {:keys [article] :as acc}]]
+    (println "Successfullly gets ARTICLE") ;; DELETE MEEEE
+    (-> db
+        (assoc-in [:loading :article] false)
+        (assoc :articles (index-by :slug [article]))))))
 
 (reg-event-fx
  :get-tags
@@ -382,8 +382,11 @@
                     (assoc :active-page :article
                            :active-article (:slug article)))
     :dispatch-n [[:get-article {:slug (:slug article)}]
-                 [:get-article-comments {:slug (:slug article)}]]
-    :set-url    {:url (str "/article/" (:slug article))}}))
+                 [:get-article-comments {:slug (:slug article)}]
+                 [:navigate :article :slug article]]
+
+    ;; :set-url    {:url (str "/article/" (:slug article))}
+    }))
 
 (reg-event-fx
  :post-comment
@@ -401,18 +404,26 @@
                  :on-success      [:post-comment-success]
                  :on-failure      [:api-request-error {:request :post-comment
                                                        :loading :comments}]}}))
-
 (reg-event-fx
  :post-comment-success
-
  (fn [{:keys [db]} [_ comment]]
-
    {:db       (-> db
                   (assoc-in [:loading :comments] false)
                   (assoc-in [:articles (:active-article db) :comments] comment)
                   (update :errors dissoc :comments)) ;; clean up errors, if any
-
     :dispatch [:get-article-comments {:slug (:active-article db)}]}))
+
+#_(reg-event-fx
+   :post-comment-success
+
+   (fn [{:keys [db]} [_ comment]]
+
+     {:db       (-> db
+                    (assoc-in [:loading :comments] false)
+                    (assoc-in [:articles (:active-article db) :comments] comment)
+                    (update :errors dissoc :comments)) ;; clean up errors, if any
+
+      :dispatch [:get-article-comments {:slug (:active-article db)}]}))
 
 (reg-event-db
  :api-request-error
