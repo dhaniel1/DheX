@@ -24,7 +24,8 @@
                                   name
                                   (str "-view")
                                   keyword)]
-    [:div.container.mx-auto.h-full.flex.flex-col.relative.min-h-screen
+    ;; container was taken out for debugging purposes
+    [:div.mx-auto.h-full.flex.flex-col.relative.min-h-screen
      [navbar/navbar]  ;; global header section
 
      [:div.app-app-app

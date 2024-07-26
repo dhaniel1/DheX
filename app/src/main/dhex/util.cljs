@@ -1,7 +1,8 @@
 (ns dhex.util
   (:require [clojure.string :as string :refer [join split]]
             [dhex.subs :as subs :refer [subscribe]]
-            [re-frame.core :as rf :refer [dispatch]]))
+            [re-frame.core :as rf :refer [dispatch]]
+            [clojure.string :as str]))
 
 (defn make-class
   [& args]
@@ -68,23 +69,36 @@
   [error]
   [:div.app [:p.error (str "An error occured: " error)]])
 
-(defn pagination []
-  (let [articles-count (subscribe [:articles-count])
-        tag (subscribe [:tag])
-        offset (subscribe [:offset])
-        pages (range 0 articles-count 10)]
+(defn input-component
+  [{:keys [id type placeholder onchange value label] :or {type "text"}}]
+  [:div.app
+   (when label [:p.text-gray-700.mb-1 {:class (str "text-[14px]")} (string/capitalize label)])
+   [:input.w-full.px-1.py-4 {:id id
+                             :type type
+                             :placeholder (string/capitalize placeholder)
+                             :on-change onchange ;; #(onChange % :email)
+                             :value value ;; (:email @cred)
+                             }]])
+(defn color-variants
+  [variant]
+  (let [default "bg-gray-600 text-gray-100 hover:text-gray-300 "]
 
-    [:section.mx-auto {:class "w-11/12"}
-     [:div.app-home-pagination.flex.flex-wrap.gap-1
-      (for [page-inst (range 1 (inc (count pages)))]
-        (let [offset-param (* 10 (dec page-inst))]
+    (case variant
+      "default" default
+      "danger" "bg-red-600"
+      default)))
 
-          ^{:key page-inst} [:div.app-home-pagination-page
-                             {:class (when (= offset offset-param) "active")
-                              :on-click #(if tag
-                                           (dispatch [:get-articles {:tag tag
-                                                                     :offset offset-param
-                                                                     :limit 10}])
-                                           (dispatch [:get-articles {:offset offset-param
-                                                                     :limit 10}]))} [:p page-inst]] 
-         ))]]))
+(defn size-variants
+  [size]
+
+  (let [default " py-2 w-full rounded-lg text-lg"]
+    (case size
+      "default"  default
+      "small" "h-full px-3 rounded-md"
+      default)))
+
+(defn button-component
+  [{:keys [label size variant disabled?] :or {variant "default" size "default"}}]
+  [:button {:class (string/join "." [(color-variants variant) (size-variants size)])
+            :disabled disabled?}
+   (string/capitalize label)])

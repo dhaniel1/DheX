@@ -4,8 +4,8 @@
 (defn footer
   []
   [:section.footer-section
-   [:footer.app-footer.flex.items-center.justify-between.p-4.mx-auto {:class (str "w-11/12")}
-    [:p.app-text-logo.text-2xl "DheX"]
+   [:footer.app-footer.flex.items-center.justify-between.p-4.mx-auto ;; {:class (str "w-11/12")}
+    [:p.app-text-logo.text-2xl.hidden {:class (str "md:flex")}  "DheX"]
 
     [:p.faded "Dhex \u00A9"
      [:span (u/current-year)

@@ -3,12 +3,13 @@
    [re-frame.core :as rf :refer [dispatch]]
    [dhex.routes :as routes]
    [dhex.util :as u :refer [tag-dark tag-light alternative-view]]
-   [dhex.subs :as subs :refer [subscribe]]))
+   [dhex.subs :as subs :refer [subscribe]]
+   [dhex.views.shared.pagination :as pagination :refer [pagination]]))
 
 (defn hero
   []
   [:section
-   [:div.app-home-hero.h-60.flex.flex-col.items-center.justify-center.w-full.mb-6
+   [:div.app-home-hero.flex.flex-col.items-center.justify-center.w-full.mb-6.p-4.md:p-10
     [:p.app-text-logo.text-7xl "DheX"]
     [:p "Big things start small"]]])
 
@@ -69,7 +70,6 @@
    (for [tag tags]
      ^{:key tag} [tag-dark tag])])
 
-
 (defn- main
   []
   (let [user (subscribe :user)
@@ -85,7 +85,7 @@
     [:section
      [:div.app-home-main.mx-auto {:class (str "w-11/12")}
       [:div.app-home-main-content.flex.gap-2.mb-8
-       [:div.app-home-main-content-feeds.flex.flex-col
+       [:div.flex.flex-col.w-full {:class (str "md:w-4/5")}
         [:div.app-home-main-content-feeds-selector.flex.gap-1
          (when (seq user)
            [:button.p-3 {:class (when (:feed filter) "active")
@@ -102,8 +102,8 @@
              (u/display-error feed-articles-error)
              [all-feeds articles]))]]
 
-       [:div.app-home-main-content-tags
-        [:div.app-home-main-content-tags-content.p-3
+       [:div.app-home-main-content-tags.hidden.md:flex
+        [:div.app-home-main-content-tags-content.p-3.h-fit
          [:p.text-center.pb-2 "Popular Tags"]
          (if loading-tags?
            [:p "Loading Tags......"]
@@ -112,7 +112,7 @@
              [tags-comp all-tags]))]]]
 
       (when-not (or loading-articles? (< articles-count 10))
-        [u/pagination])]]))
+        [pagination])]]))
 
 (defn home-view []
   [:div.app-home

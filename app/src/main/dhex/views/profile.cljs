@@ -3,7 +3,8 @@
    [re-frame.core :as rf :refer [dispatch]]
    [dhex.routes :as routes]
    [dhex.util :as u  :refer [alternative-view tag-light tag-dark]]
-   [dhex.subs :as subs :refer [subscribe]]))
+   [dhex.subs :as subs :refer [subscribe]]
+    [dhex.views.shared.pagination :as pagination :refer [pagination]]))
 
 (defn hero
   []
@@ -106,7 +107,7 @@
           [all-feeds articles])]]
 
       (when-not (or loading-articles? (< articles-count 10))
-        [u/pagination])]]))
+        [pagination])]]))
 
 (defn profile-view []
   [:div.app_profile

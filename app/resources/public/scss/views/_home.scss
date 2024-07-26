@@ -27,6 +27,10 @@
       &-feeds {
         width: 80%;
 
+        @include screen("sm") {
+          background-color: red; // Example style for small screens
+        }
+
         &-selector {
           border-bottom: 1.5px solid var(--grey-300);
           font-family: var(--font-family-dm);

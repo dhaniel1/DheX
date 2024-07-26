@@ -33,8 +33,7 @@
 ;; The server males hte calls and passes every appropriate header to and parameters to the client
 
 (defn clj-request [request]
-  (let [_ (clojure.pprint/pprint request ;; (get (:headers request) "authorization")
-                                 )
+  (let [
         authorization (get-in request [:headers "authorization"])
         response (client/request {:method  (:request-method request)
                                   :url     (:url request)
@@ -48,7 +47,7 @@
 
 (defn clj-post [request]
   (let [;; request (update request :headers dissoc "content-length") ;; this is very unneccessary
-        _ (clojure.pprint/pprint request)
+       ;; _ (clojure.pprint/pprint request)
         authorization (get-in request [:headers "authorization"])
         uri (:url request)
         response (client/post uri {:form-params (:body request)

@@ -2,13 +2,13 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf :refer [dispatch]]
             [dhex.routes :as routes]
-            [dhex.subs :as sub :refer [subscribe]]))
+            [dhex.subs :as sub :refer [subscribe]]
+            [dhex.util :as u]))
 
 (defn login-page []
   (let [cred (r/atom {:email "" :password "" :password-visible false})]
 
     (fn []
-
       (let [loading-login-user? (subscribe :loading-login-user?)
             register (fn [event cred]
                        (.preventDefault event)
@@ -16,35 +16,43 @@
             onChange (fn [event key] (swap! cred assoc key (-> event .-target .-value)))
             onClick (fn [key] (swap! cred update key #(not %)))]
 
-        [:div.app-login
+        [:div.app-login.w-full.px-14 {:class (str "min-w-[400px] max-w-[500px] ")}
 
-   ;; Title Component
+         ;; Title Component
          [:section
-          [:div.app-login-title.flex.flex-col.justify-center.mx-auto {:class (str "w-11/12")}
-           [:h1 "Sign In"]
-           [:p.text-justify {:on-click #(dispatch [:navigate :register])} "Need an account?"]]]
+          [:div.app-login-title.flex.flex-col.align-start.mx-auto
+           [:h3 "Sign in"]
+           [:p.text-start.text-gray-600 {:on-click #(dispatch [:navigate :register])}
+            "Welcome back! Please enter your details."]]]
 
-   ;; Form components
+         ;; Form components
          [:section
-          [:div.app-login-body.flex.flex-col.mx-auto {:class (str "w-11/12")}
-           [:form.app-login-body-form.flex.flex-col.gap-6 {:on-submit #(register % (dissoc @cred :password-visible))}
-            [:input.app-login-body-form-input.w-full {:id "email"
-                                                      :type "text"
-                                                      :placeholder "Enter your email"
-                                                      :on-change #(onChange % :email)
-                                                      :value (:email @cred)}]
+          [:div.app-login-body.flex.flex-col.mx-auto.mb-6
+           [:form.app-login-body-form.flex.flex-col.gap-6.w-full {:on-submit #(register % (dissoc @cred :password-visible))}
+            (u/input-component {:id "email"
+                                :label "Email"
+                                :type "text"
+                                :placeholder "Enter your email"
+                                :onchange #(onChange % :email)
+                                :value (:email @cred)})
 
-            [:div.flex.items-center
-             [:input.app-login-body-form-input.w-full {:id "username"
-                                                       :type (if (:password-visible @cred) "text" "password")
-                                                       :placeholder "Enter your password"
-                                                       :on-change  #(onChange % :password)
-                                                       :value (:password @cred)}]
+            [:div.app.relative
+             (u/input-component  {:id "password"
+                                  :label "Password"
+                                  :type (if (:password-visible @cred) "text" "password")
+                                  :placeholder "Enter your password"
+                                  :onchange  #(onChange % :password)
+                                  :value (:password @cred)
+                                  })
+
              [:div.is-visible {:on-click #(onClick :password-visible)
                                :class (if (:password-visible @cred) "yes-visible"  "not-visible")}]]
 
-            [:button.app-button.items-end {:disabled loading-login-user?}
-             (if loading-login-user? "Signing in..." "Sign in")]]]]]))))
+            (u/button-component {:disabled? loading-login-user?
+                                 :label (if loading-login-user? "Signing in..." "Sign in")})]]
+
+          [:p.text-center "Don't have an account? "
+           [:span.text-blue-600.font-semibold.cursor-pointer {:on-click #(dispatch [:navigate :register])} "Sign Up"]]]]))))
 
 ;; Form Input components
 (defmethod routes/panels :login-view [] [login-page])

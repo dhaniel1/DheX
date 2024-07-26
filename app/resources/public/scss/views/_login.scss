@@ -1,22 +1,18 @@
 .app-login {
+  margin: 0 auto;
+
   &-title {
     margin-top: 2rem;
     // background-color: aquamarine;
-    h1,
-    p {
-      margin: 0 auto;
-    }
 
-    h1 {
+    h3 {
       font-size: 2.5rem;
-      font-weight: 700;
-      // font-family: var(--font-family-poetsen);
+      font-weight: 500;
     }
 
     p {
-      font-size: large;
-      cursor: pointer;
-      color: rgb(21, 21, 108);
+      font-size: 1rem;
+      // color: rgb(21, 21, 108);
 
       &:hover {
         color: rgb(49, 49, 169);
@@ -25,14 +21,13 @@
   }
 
   &-body {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     &-form {
-      width: 50%;
       margin: 0 auto;
-      max-width: 40rem;
+      // max-width: 40rem;
 
-      .yes-visible {
+      /*  .yes-visible {
         background-image: url("../../img/visible.png");
       }
 
@@ -52,64 +47,7 @@
         border-bottom-left-radius: 0;
         width: 3rem;
         height: 3rem;
-      }
-
-      /*   .border {
-        border: 1px solid var(--grey-400);
-        border-radius: 0.5rem;
-
-        input {
-          border: none;
-
-          &:active,
-          &:focus {
-            border: none;
-            // border-color: var(--grey-400);
-            border-color: none;
-            box-shadow: none;
-          }
-        }
-
-        &:active,
-        &:focus {
-          border: 2px solid red;
-          // border-color: var(--grey-400);
-          border-color: none;
-          box-shadow: none;
-        }
       } */
-
-      input {
-        border-color: var(--grey-400);
-        border-radius: 0.5rem;
-        color: var(--grey-900);
-        // margin-bottom: 2rem;
-        padding: 1.2rem 0.8rem;
-        transition: box-shadow 0.3s ease;
-        font-size: 1.3rem;
-
-        &.border-right-nil {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-
-        &.border-nil {
-          border: none;
-        }
-
-        &::placeholder {
-          color: var(--grey-400);
-        }
-
-        &:active,
-        &:focus {
-          // border: 2px solid var(--grey-500);
-          border-color: var(--grey-400);
-          border-color: none;
-          box-shadow: none;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-      }
     }
   }
 }
