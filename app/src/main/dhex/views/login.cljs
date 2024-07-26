@@ -16,24 +16,23 @@
             onChange (fn [event key] (swap! cred assoc key (-> event .-target .-value)))
             onClick (fn [key] (swap! cred update key #(not %)))]
 
-        [:div.app-login.w-full.px-14 {:class (str "min-w-[400px] max-w-[500px] ")}
+        [:div.w-full.px-14.mx-auto {:class (str "min-w-[400px] max-w-[500px] ")}
 
          ;; Title Component
          [:section
-          [:div.app-login-title.flex.flex-col.align-start.mx-auto
-           [:h3 "Sign in"]
-           [:p.text-start.text-gray-600 {:on-click #(dispatch [:navigate :register])}
-            "Welcome back! Please enter your details."]]]
+          [:div.flex.flex-col.align-start.mx-auto.mt-8
+           [:h3.font-semibold {:class "text-[2.5rem]"} "Sign in"]
+           [:p.text-base.text-start.text-gray-600 "Welcome back! Please enter your details."]]]
 
          ;; Form components
          [:section
-          [:div.app-login-body.flex.flex-col.mx-auto.mb-6
-           [:form.app-login-body-form.flex.flex-col.gap-6.w-full {:on-submit #(register % (dissoc @cred :password-visible))}
+          [:div.flex.flex-col.mx-auto.mb-6.mt-8
+           [:form.flex.flex-col.gap-6.w-full {:on-submit #(register % (dissoc @cred :password-visible))}
             (u/input-component {:id "email"
                                 :label "Email"
                                 :type "text"
                                 :placeholder "Enter your email"
-                                :onchange #(onChange % :email)
+                                :on-change #(onChange % :email)
                                 :value (:email @cred)})
 
             [:div.app.relative
@@ -41,7 +40,7 @@
                                   :label "Password"
                                   :type (if (:password-visible @cred) "text" "password")
                                   :placeholder "Enter your password"
-                                  :onchange  #(onChange % :password)
+                                  :on-change  #(onChange % :password)
                                   :value (:password @cred)
                                   })
 

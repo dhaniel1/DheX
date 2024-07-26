@@ -70,15 +70,14 @@
   [:div.app [:p.error (str "An error occured: " error)]])
 
 (defn input-component
-  [{:keys [id type placeholder onchange value label] :or {type "text"}}]
+  [{:keys [id type placeholder on-change value label] :or {type "text"}}]
   [:div.app
    (when label [:p.text-gray-700.mb-1 {:class (str "text-[14px]")} (string/capitalize label)])
    [:input.w-full.px-1.py-4 {:id id
                              :type type
                              :placeholder (string/capitalize placeholder)
-                             :on-change onchange ;; #(onChange % :email)
-                             :value value ;; (:email @cred)
-                             }]])
+                             :on-change on-change
+                             :value value}]])
 (defn color-variants
   [variant]
   (let [default "bg-gray-600 text-gray-100 hover:text-gray-300 "]
