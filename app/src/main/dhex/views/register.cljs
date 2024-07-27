@@ -10,7 +10,7 @@
   (let [cred (r/atom {:username "" :email "" :password "" :password-visible false})]
 
     (fn []
-      (let [;; registering (subscribe :registering)
+      (let [loading-register-user? (subscribe :loading-register-user?)
             onClick (fn [key] (swap! cred update key #(not %)))
             onChange (fn [event key]  (swap! cred assoc key (-> event .-target .-value)))
             register (fn [event credentials]
@@ -44,20 +44,14 @@
                                 :on-change #(onChange % :email)
                                 :value (:email @cred)})
 
-            [:div.app.relative
-             (u/input-component  {:id "password"
-                                  :label "Password"
-                                  :type (if (:password-visible @cred) "text" "password")
-                                  :placeholder "Enter your password"
+            (u/password-compnent {:password-visible (:password-visible @cred)
                                   :on-change  #(onChange % :password)
-                                  :value (:password @cred)})
+                                  :value (:password @cred)
+                                  :on-click #(onClick :password-visible)})
 
-             [:div.is-visible {:on-click #(onClick :password-visible)
-                               :class (if (:password-visible @cred) "yes-visible"  "not-visible")}]]
 
-            (u/button-component {;;:disabled? loading-login-user?
-                                 :label "Sign up" ;; (if loading-login-user? "Signing in..." "Sign in")
-                                 })]]
+            (u/button-component {:disabled?  loading-register-user?
+                                 :label (if loading-register-user? "Signing in..." "Sign in")})]]
 
           [:p.text-center "Already have an account? "
            [:span.text-blue-600.font-semibold.cursor-pointer {:on-click #(dispatch [:navigate :login])} "Sign In"]]]

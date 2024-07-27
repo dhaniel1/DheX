@@ -8,7 +8,7 @@
   (let [active-page (subscribe :active-page)
         user (subscribe :user)]
     [:section.navbar-section
-     [:nav.app-navbar.flex.justify-between.items-center.p-5.mx-auto ;;{:class (str "w-11/12")}
+     [:nav.app-navbar.flex.justify-between.items-center.px-8.py-4.mx-auto ;;{:class (str "w-11/12")}
       [:p.app-text-logo.text-3xl.cursor-pointer {:on-click #(dispatch [:navigate :home])
                                                  :class (str "md:text-[2.5rem]")} "DheX"]
       [:div.app-navbar-navlinks.flex.gap-3.text-lg

@@ -3,7 +3,8 @@
             [re-frame.core :as rf :refer [dispatch]]
             [clojure.string :as string :refer [join trim split]]
             [dhex.subs :as subs :refer [subscribe]]
-            [dhex.routes :as routes]))
+            [dhex.routes :as routes]
+            [dhex.util :as u]))
 
 (defn editor-page
   []
@@ -23,31 +24,33 @@
                                                              :body        (trim (or (:body content) ""))
                                                              :tagList     (split (:tagList content) #" ")}}]))]
 
-        [:div.app_settings
+        [:div.w-full.px-14.mx-auto {:class (str "min-w-[400px] max-w-[700px] ")}
 
    ;; Title Component
          [:section
-          [:div.app_settings-title.flex.flex-col.justify-center.mb-6.mx-auto {:class (str "w-11/12")}
-           [:h1 (str (if false "Update" "Create new") " article") ""]]]
+          [:div.app_settings-title.flex.flex-col.justify-center.mb-6.mx-auto
+           [:h3.font-semibold {:class "text-[2.5rem]"}
+            (str (if false "Update" "Create new") " article") ""]
+           [:p.text-base.text-start.text-gray-600 (str "Fill in the fields to " (if false "update" "publish a new") "  article")]]] ;; Fix static conditional
 
 ;; Form components
          [:section.app
-          [:div.app_settings-body.flex.flex-col.mx-auto {:class (str "w-11/12")}
+          [:div.app_settings-body.flex.flex-col.mx-auto
            [:form.app-register-body-form.flex.flex-col.gap-6 {:on-submit #(onSubmit % @content slug)}
 
-            [:input.app_settings-body-form-input.w-full {:id "title"
-                                                         :type "text"
-                                                         :placeholder "Article title"
-                                                         :on-change #(onChange % :title)
-                                                      ;; :default-value (:image @cred)
-                                                         :value (:title @content)}]
+            (u/input-component {:id "title"
+                                :type "text"
+                                :placeholder "Article title"
+                                :on-change #(onChange % :title)
+                                ;; :default-value (:image @cred)
+                                :value (:title @content)})
 
-            [:input.app_settings-body-form-input.w-full {:id "about"
-                                                         :type "text"
-                                                         :placeholder "About Article"
-                                                         :on-change #(onChange % :description)
-                                                      ;; :default-value (:article @cred)
-                                                         :value (:description @content)}]
+            (u/input-component {:id "about"
+                                :type "text"
+                                :placeholder "About Article"
+                                :on-change #(onChange % :description)
+                                ;; :default-value (:article @cred)
+                                :value (:description @content)})
 
             [:textarea.app_settings-body-form-input.w-full {:id "article"
                                                             :type "text"
@@ -57,17 +60,25 @@
                                                             :on-change #(onChange % :body)
                                                             :value (:body @content)}]
 
-            [:input.app_settings-body-form-input.w-full {:id "tags"
-                                                         :type "text"
-                                                         :placeholder "Your tags"
-                                                         :on-change #(onChange % :tagList)
-                                                      ;; :default-value (:tags @cred)
-                                                         :value (:tagList @content)}]
+            #_(u/input-component {:id "article"
+                                  :type "text"
+                                  :rows 10
+                                  :placeholder "Write your article in markdown"
+                                ;; :default-value (:article @cred)
+                                  :on-change #(onChange % :body)
+                                  :value (:body @content)})
 
-            [:button.app-button.items-end {:disabled loading-article?}
-             (if active-article
-               (if loading-article? "Updating...."  "Update Article")
-               (if loading-article? "Publishing...."  "Publish Article"))]]]]]))))
+            (u/input-component  {:id "tags"
+                                 :type "text"
+                                 :placeholder "Your tags"
+                                 :on-change #(onChange % :tagList)
+                                 ;; :default-value (:tags @cred)
+                                 :value (:tagList @content)})
+
+            (u/button-component {:disabled loading-article?
+                                 :label (if active-article
+                                          (if loading-article? "Updating...."  "Update Article")
+                                          (if loading-article? "Publishing...."  "Publish Article"))})]]]]))))
 
 (defmethod routes/panels :editor-view [] [editor-page])
 

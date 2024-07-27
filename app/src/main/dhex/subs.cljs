@@ -87,6 +87,14 @@
    (:login-user loading?)))
 
 (reg-sub
+ ::loading-register-user?
+
+ :<- [::loading]
+
+ (fn [loading?]
+   (:register-user loading?)))
+
+(reg-sub
  ::loading-update-user?
 
  :<- [::loading]

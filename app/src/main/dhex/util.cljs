@@ -1,8 +1,7 @@
 (ns dhex.util
   (:require [clojure.string :as string :refer [join split]]
             [dhex.subs :as subs :refer [subscribe]]
-            [re-frame.core :as rf :refer [dispatch]]
-            [clojure.string :as str]))
+            [re-frame.core :as rf :refer [dispatch]]))
 
 (defn make-class
   [& args]
@@ -72,7 +71,7 @@
 (defn input-component
   [{:keys [id type placeholder on-change value label] :or {type "text"}}]
   [:div.app
-   (when label [:p.text-gray-700.mb-1 {:class (str "text-[14px]")} (string/capitalize label)])
+   [:p.text-gray-700.mb-1 {:class (str "text-[14px]")} (string/capitalize (or label id))]
    [:input.w-full.px-1.py-4 {:id id
                              :type type
                              :placeholder (string/capitalize placeholder)
@@ -101,3 +100,16 @@
   [:button {:class (string/join "." [(color-variants variant) (size-variants size)])
             :disabled disabled?}
    (string/capitalize label)])
+
+(defn password-compnent
+  [{:keys [password-visible on-change value on-click]}]
+  [:div.app.relative
+   (input-component  {:id "password"
+                      :label "Password"
+                      :type (if password-visible "text" "password")
+                      :placeholder "Enter your password"
+                      :on-change on-change
+                      :value value})
+
+   [:div.is-visible {:on-click on-click
+                     :class (if password-visible "yes-visible"  "not-visible")}]])

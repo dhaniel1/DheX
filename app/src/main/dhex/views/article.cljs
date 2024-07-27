@@ -85,6 +85,11 @@
           [:div.app_article-body-comment-bottom.flex.justify-between
            [:img.article-meta-avatar {:src (:image author)
                                       :alt "article-meta avatar"}]
+
+           (u/button-component {:disabled? false ;; loading-login-user? ;; TODO:: Implement loading state for butt 
+                                :label "Post Comment" ;; (if loading-login-user? "Signing in..." "Sign in")
+                                })
+
            [:button.app-button.small {:on-click #(post-comment %)} "Post Comment"]]]
 
          (when article-comments
