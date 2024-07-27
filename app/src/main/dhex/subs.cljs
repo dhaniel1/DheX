@@ -196,3 +196,9 @@
 
  (fn [errors]
    (:get-tags errors)))
+
+(reg-sub
+::toggle-menu-modal?
+
+(fn [db]
+  (:mobile-menu-modal db)))

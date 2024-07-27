@@ -51,7 +51,7 @@
 
 
             (u/button-component {:disabled?  loading-register-user?
-                                 :label (if loading-register-user? "Signing in..." "Sign in")})]]
+                                 :label (if loading-register-user? "Signing up..." "Sign up")})]]
 
           [:p.text-center "Already have an account? "
            [:span.text-blue-600.font-semibold.cursor-pointer {:on-click #(dispatch [:navigate :login])} "Sign In"]]]

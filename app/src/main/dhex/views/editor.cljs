@@ -28,14 +28,14 @@
 
    ;; Title Component
          [:section
-          [:div.app_settings-title.flex.flex-col.justify-center.mb-6.mx-auto
+          [:div.flex.flex-col.justify-center.mt-3.mb-6.mx-auto
            [:h3.font-semibold {:class "text-[2.5rem]"}
             (str (if false "Update" "Create new") " article") ""]
            [:p.text-base.text-start.text-gray-600 (str "Fill in the fields to " (if false "update" "publish a new") "  article")]]] ;; Fix static conditional
 
 ;; Form components
          [:section.app
-          [:div.app_settings-body.flex.flex-col.mx-auto
+          [:div.flex.flex-col.mx-auto
            [:form.app-register-body-form.flex.flex-col.gap-6 {:on-submit #(onSubmit % @content slug)}
 
             (u/input-component {:id "title"
@@ -52,13 +52,13 @@
                                 ;; :default-value (:article @cred)
                                 :value (:description @content)})
 
-            [:textarea.app_settings-body-form-input.w-full {:id "article"
-                                                            :type "text"
-                                                            :rows 10
-                                                            :placeholder "Write your article in markdown"
+            [:textarea.w-full {:id "article"
+                               :type "text"
+                               :rows 10
+                               :placeholder "Write your article in markdown"
                                                          ;; :default-value (:article @cred)
-                                                            :on-change #(onChange % :body)
-                                                            :value (:body @content)}]
+                               :on-change #(onChange % :body)
+                               :value (:body @content)}]
 
             #_(u/input-component {:id "article"
                                   :type "text"

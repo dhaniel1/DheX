@@ -5,6 +5,7 @@
 
 (def default-db
   {:active-page :home
+   :mobile-menu-modal false
    :user {}}) ;; implement an interceptor that does the check for user path
 
 (def dhex-user-key "dhex-user")

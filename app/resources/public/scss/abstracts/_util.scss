@@ -12,6 +12,24 @@
   --navbar-height: 4rem; // cheap hack
 }
 
+.pagination {
+  &-page {
+    color: var(--grey-700);
+    padding: 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--grey-300);
+
+    &.active,
+    &:hover {
+      // font-style: italic;
+      font-weight: 500;
+      color: var(--grey-800);
+      background-color: var(--grey-400);
+      cursor: pointer;
+    }
+  }
+}
+
 .app {
   .is-visible {
     position: absolute;
@@ -155,6 +173,9 @@
 }
 .whatsapp {
   background-image: url("../../img/whatsapp.svg");
+}
+.hamburger {
+  background-image: url("../../img/hamburger.svg");
 }
 
 .tag {

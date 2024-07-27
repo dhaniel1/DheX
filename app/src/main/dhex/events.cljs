@@ -433,6 +433,14 @@
    (-> db
        (assoc-in [:errors request] (:debug-message response))
        (assoc-in [:loading (or loading request)] false))))
+
+
+(reg-event-db 
+:toggle-menu-modal
+
+(fn [db]
+  (update db :mobile-menu-modal #(not %))))
+
 ;;
 ;;
 ;;

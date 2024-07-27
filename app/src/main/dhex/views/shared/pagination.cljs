@@ -8,13 +8,13 @@
         offset (subscribe [:offset])
         pages (range 0 articles-count 10)]
 
-    ;; confirm that each pagination instance can take up a woidth of 100%
-    [:section.mx-auto.w-full ;; {:class "md:w-11/12"}
-     [:div.app-home-pagination.flex.flex-wrap.gap-1
+   
+    [:section.mx-auto.w-ful.mb-6
+     [:div.pagination.flex.flex-wrap.gap-1
       (for [page-inst (range 1 (inc (count pages)))]
         (let [offset-param (* 10 (dec page-inst))]
 
-          ^{:key page-inst} [:div.app-home-pagination-page
+          ^{:key page-inst} [:div.pagination-page
                              {:class (when (= offset offset-param) "active")
                               :on-click #(if tag
                                            (dispatch [:get-articles {:tag tag
