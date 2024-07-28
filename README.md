@@ -1,29 +1,22 @@
-I'm still under construction at a not so faast pace. 
-
-This readme file will constantly be updated. 
-
-However, here's how to make the project run DheX on your machine.
-
-Shoot me an email at obioradhani.el@gmail.com if you wish to pass a word across
-
-Thanks a bunch for checking me out.
-
 # DheX
 
 Big things start small
 
+Email me at obioradhani.el@gmail.com if you wish to pass a word across
+
+Thank you for checking this project out.
+
+However, here's how to make the project run on your machine.
+
 ## Getting Started
 
-The project includes scss. but don't be scared cuz here's how to compile the scss file
-
-- you don't need to compile the scss file for the styling to be effected successfully because the compiled css and the raw scss is intentionally included int he project
+- You don't need to compile the scss file for the styling to be effected successfully because the compiled css and the raw scss is intentionally included in the project
 - Install sass on your machine globally using npm install -g sass (This is done once)
-- in the terminal, navigate to the app folder in the project directory and run "sass ./resources/public/scss/main.scss:./resources/public/public/style.css" command.
-- I hope this made you smile
+- In the terminal, navigate to the app folder in the project directory and run "sass ./resources/public/scss/main.scss:./resources/public/public/style.css" command.
 
-- Launch your clojuer repl
+- Launch your clojure repl (find instruction below)
 - Launch the ring server using "lein ring server"
-- Launch the clojurescript repl
+- Launch the clojurescript repl (find instruction below)
 
 ## Structures to note
 
@@ -94,8 +87,8 @@ Use your preferred editor or IDE that supports Clojure/ClojureScript development
    (headless test environment) \* For Chromium, set the `CHROME_BIN` environment variable in your shell to the command that
    launches Chromium. For example, in Ubuntu, add the following line to your `.bashrc`:
    `bash
-     export CHROME_BIN=chromium-browser
-    `
+ export CHROME_BIN=chromium-browser
+`
 4. Clone this repo and open a terminal in the `dhex` project root directory
 
 ### Browser Setup
@@ -139,6 +132,7 @@ browser test runner and karma test runner with hot reload:
 ```sh
 npm install
 npx shadow-cljs watch app
+lein ring server-headless
 ```
 
 Please be patient; it may take over 20 seconds to see any output, and over 40 seconds to complete.
